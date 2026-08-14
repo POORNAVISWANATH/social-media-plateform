@@ -16,11 +16,11 @@ public class Follow {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "follower_id", nullable = false)
-    private User follower;
+    private User follower;//who follows
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "followed_id", nullable = false)
-    private User followed;
+    private User followed;//who is followed by the follower
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
