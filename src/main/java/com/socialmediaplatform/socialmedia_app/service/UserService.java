@@ -3,7 +3,6 @@ package com.socialmediaplatform.socialmedia_app.service;
 import com.socialmediaplatform.socialmedia_app.dto.RegisterRequest;
 import com.socialmediaplatform.socialmedia_app.dto.UserResponse;
 import com.socialmediaplatform.socialmedia_app.entity.User;
-import com.socialmediaplatform.socialmedia_app.exception.ConflictException;
 import com.socialmediaplatform.socialmedia_app.exception.EmailAlreadyExistsException;
 import com.socialmediaplatform.socialmedia_app.exception.UsernameAlreadyExistsException;
 import com.socialmediaplatform.socialmedia_app.repository.UserRepository;
@@ -19,10 +18,10 @@ public class UserService {
 
     public UserResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new ConflictException("Username " + request.getUsername() + " already exists");
+            throw new UsernameAlreadyExistsException(request.getUsername());
         }
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new ConflictException("Email " + request.getEmail() + " already exists");
+            throw new EmailAlreadyExistsException(request.getEmail());
         }
         // TODO Phase 3: hash request.getPassword() before storing — storing raw for now
         User user = new User(request.getUsername(), request.getEmail(), request.getPassword());
