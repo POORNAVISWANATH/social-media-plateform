@@ -1,5 +1,6 @@
 package com.socialmediaplatform.socialmedia_app.controller;
 
+import com.socialmediaplatform.socialmedia_app.dto.PublicUserResponse;
 import com.socialmediaplatform.socialmedia_app.dto.RegisterRequest;
 import com.socialmediaplatform.socialmedia_app.dto.UserResponse;
 import com.socialmediaplatform.socialmedia_app.service.UserService;
@@ -23,5 +24,11 @@ public class UserController {
         UserResponse response = userService.register(request);
         URI location = URI.create("/api/users/" + response.getId());
         return ResponseEntity.created(location).body(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PublicUserResponse> getUser(@PathVariable Long id) {
+        PublicUserResponse user = userService.loadUserById(id);
+        return ResponseEntity.ok(user);
     }
 }
