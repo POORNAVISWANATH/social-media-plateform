@@ -9,6 +9,8 @@ import com.socialmediaplatform.socialmedia_app.repository.PostRepository;
 import com.socialmediaplatform.socialmedia_app.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostService {
     private final PostRepository postRepository;
@@ -46,5 +48,15 @@ public class PostService {
         );
 
         return toPostResponse(post);
+    }
+
+    //Load all the user's Post
+    public List<PostResponse> getPostsByAuthorId(Long id) {
+        userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+        List<PostResponse> allPosts = postRepository.findByAuthorIdOrderByCreatedAtDesc(id)
+                .stream().map(post -> toPostResponse(post))
+                .toList();
+        return allPosts;
     }
 }

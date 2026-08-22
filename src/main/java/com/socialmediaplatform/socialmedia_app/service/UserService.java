@@ -3,8 +3,9 @@ package com.socialmediaplatform.socialmedia_app.service;
 import com.socialmediaplatform.socialmedia_app.dto.PublicUserResponse;
 import com.socialmediaplatform.socialmedia_app.dto.RegisterRequest;
 import com.socialmediaplatform.socialmedia_app.dto.UserResponse;
+
 import com.socialmediaplatform.socialmedia_app.entity.User;
-import com.socialmediaplatform.socialmedia_app.exception.ConflictException;
+
 import com.socialmediaplatform.socialmedia_app.exception.EmailAlreadyExistsException;
 import com.socialmediaplatform.socialmedia_app.exception.ResourceNotFoundException;
 import com.socialmediaplatform.socialmedia_app.exception.UsernameAlreadyExistsException;
@@ -53,4 +54,5 @@ public class UserService {
                 user.getCreatedAt()
         );
     }
+
 }
