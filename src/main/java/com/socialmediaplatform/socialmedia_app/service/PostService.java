@@ -5,6 +5,7 @@ import com.socialmediaplatform.socialmedia_app.dto.PostResponse;
 import com.socialmediaplatform.socialmedia_app.entity.Post;
 import com.socialmediaplatform.socialmedia_app.entity.User;
 import com.socialmediaplatform.socialmedia_app.exception.ResourceNotFoundException;
+import com.socialmediaplatform.socialmedia_app.repository.LikeRepository;
 import com.socialmediaplatform.socialmedia_app.repository.PostRepository;
 import com.socialmediaplatform.socialmedia_app.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,12 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, LikeRepository likeRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.likeRepository = likeRepository;
     }
 
     public PostResponse createPost(PostRequest request) {
@@ -33,10 +36,12 @@ public class PostService {
     }
 
     private PostResponse toPostResponse(Post post) {
+        Long likeCount = likeRepository.countByPostId(post.getId());
         return new PostResponse(
                 post.getId(),
                 new PostResponse.AuthorSummary(post.getAuthor().getId(), post.getAuthor().getUsername()),
                 post.getContent(),
+                likeCount,
                 post.getCreatedAt(),
                 post.getUpdatedAt()
         );
